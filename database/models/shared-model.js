@@ -5,14 +5,14 @@ module.exports = {
     findById,
   };
   
-  function get(db) {
-    return db(db)
+  function get(database) {
+    return db(database)
   }
-  function add(db, data) {
-    return db(db).insert(data)
+  function add(database, data) {
+    return db(database).insert(data)
   }
-  function findById(db,id){
-    return db(db)
+  function findById(database,id){
+    return db(database)
     .where('id', id)
     .first()
   }
