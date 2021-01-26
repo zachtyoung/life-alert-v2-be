@@ -12,8 +12,6 @@ exports.up = function(knex) {
         events.integer('duration_seconds')
         events.integer('event_intensity')
         events.integer('max_dB')
-
-        // events.datetime('time_triggered').defaultTo(knex.fn.now());
     })
   };
   

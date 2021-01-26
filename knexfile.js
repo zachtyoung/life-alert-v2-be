@@ -1,7 +1,21 @@
 // Update with your config settings.
 
 module.exports = {
-
+  production: {
+    client: 'postgresql',
+    connection: {
+      database: 'eventLog',
+      user:     'zachyoung',
+      password: ''
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      directory: './database/migrations',
+    },
+  },
   development: {
     client: 'sqlite3',
     connection: { filename: './database/events_log.db3' },
@@ -12,20 +26,6 @@ module.exports = {
     seeds: { directory: './database/seeds' },
   },
 
-  production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
+
 
 };
