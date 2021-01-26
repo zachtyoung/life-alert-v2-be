@@ -10,24 +10,20 @@ server.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
     next();
   });
+  const eventsRoutes = require('./database/routes/eventsRoutes');
+  const meds_listRoutes = require('./database/routes/meds_listRoutes');
+  const medsRoutes = require('./database/routes/medsRoutes');
+  const notesRoutes = require('./database/routes/notesRoutes');
   const Shared = require('./database/models/shared-model');
   server.get('/', (req, res) => {
     res.status(200).json("API RUNNING")
 
 });
+server.use('/events', eventsRoutes);
+server.use('/meds_list', meds_listRoutes);
+server.use('/meds', medsRoutes);
+server.use('/notes', notesRoutes);
 
-server.post('/event', (req, res) => {
-  let event = req.body;
-  Shared.add('events', event)
-  .then(data =>{
-      res.status(200).json(data)
-  })
-  .catch(err =>{
-      console.log(err)
-      res.status(400).json(err)
-  })
-
-});
 
 server.post('/notes', (req, res) => {
   let note = req.body;
