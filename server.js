@@ -17,8 +17,19 @@ server.use(function(req, res, next) {
 });
 
 server.post('/', (req, res) => {
-  
-  Shared.add('events', )
+  let event = req.body;
+  Shared.add('events', event)
+  .then(data =>{
+      res.status(200).json(data)
+  })
+  .catch(err =>{
+      console.log(err)
+      res.status(400).json(err)
+  })
+
+});
+server.get('/events', (req, res) => {
+  Shared.get('events')
   .then(data =>{
       res.status(200).json(data)
   })
