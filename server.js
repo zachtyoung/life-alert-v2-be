@@ -16,9 +16,47 @@ server.use(function(req, res, next) {
 
 });
 
-server.post('/', (req, res) => {
+server.post('/event', (req, res) => {
   let event = req.body;
   Shared.add('events', event)
+  .then(data =>{
+      res.status(200).json(data)
+  })
+  .catch(err =>{
+      console.log(err)
+      res.status(400).json(err)
+  })
+
+});
+
+server.post('/notes', (req, res) => {
+  let note = req.body;
+  Shared.add('notes', note)
+  .then(data =>{
+      res.status(200).json(data)
+  })
+  .catch(err =>{
+      console.log(err)
+      res.status(400).json(err)
+  })
+
+});
+
+server.post('/meds', (req, res) => {
+  let med = req.body;
+  Shared.add('meds', med)
+  .then(data =>{
+      res.status(200).json(data)
+  })
+  .catch(err =>{
+      console.log(err)
+      res.status(400).json(err)
+  })
+
+});
+server.post('/meds_list', (req, res) => {
+  let med = req.body;
+  Shared.add('meds_list', med)
   .then(data =>{
       res.status(200).json(data)
   })
