@@ -1,5 +1,6 @@
 const express = require('express');
 const Shared = require('../models/shared-model');
+const Event = require('../models/events-model')
 const router = express.Router();
 
 //GET all events
@@ -13,10 +14,11 @@ router.get('/', (req, res) => {
 //GET event by ID
 router.get('/:id', (req, res) => {
     const {id} = req.params
-    Shared.get('events', id)
+    Event.get(id)
     .then(data =>{
         res.status(200).json(data)
     })
+    .catch(err => console.log(err))
 });
 //POST new event
 router.post('/', (req, res) => {
