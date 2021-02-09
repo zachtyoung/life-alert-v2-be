@@ -2,7 +2,8 @@ const express = require('express');
 const Shared = require('../models/shared-model');
 const Event = require('../models/events-model')
 const router = express.Router();
-
+var moment = require('moment-timezone');
+moment.tz.setDefault("America/Monterrey");
 //GET all events
 router.get('/', (req, res) => {
     Shared.get('events')
@@ -23,6 +24,9 @@ router.get('/:id', (req, res) => {
 //POST new event
 router.post('/', (req, res) => {
     let event = req.body;
+    event.duration_seconds = event.event_end - event.event_start
+    let start_mili = event.event_start * 1000
+    console.log( start_mili)
     Shared.add('events', event)
     .then(data =>{
         res.status(200).json(data)

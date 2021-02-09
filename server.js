@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require("cors");
-
+const basicAuth = require('express-basic-auth')
 const server = express();
+server.use(basicAuth({
+  users: { 'admin': 'supersecret' }
+}))
 server.use(cors());
 server.use(express.json());
 server.use(function(req, res, next) {
