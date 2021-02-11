@@ -2,25 +2,9 @@ const express = require('express');
 const Shared = require('../models/shared-model');
 const Event = require('../models/events-model')
 const router = express.Router();
-// var moment = require('moment-timezone');
-// moment.tz.setDefault("America/Monterrey");
-// var seconds = 1612986687
-// var seconds2 = 1612986937
-// var mili = seconds * 1000
-// let days = ["Sun", 'Mon', 'Tues', 'Wed', "Thurs", "Fri", "Sat"]
-// //sample variables
-// let e_duration = seconds2 - seconds
-// console.log(moment(mili).format('MM DD YY'))
-// let e_start_12h = moment(mili).format('hh:mm:ss a')
-// let e_start_24h = moment(mili).format('HH:mm:ss ')
-// let e_weekday = days[moment(mili).weekday()]
-// let e_month = moment(mili).month()+1
-// let e_day_of_month = moment(mili).date()
+var moment = require('moment-timezone');
+moment.tz.setDefault("America/Monterrey");
 
-
-
-// let e_year = moment(mili).year()
-// console.log(e_duration, e_start_12h, e_start_24h,e_weekday, e_month, e_day_of_month, e_year)
 //GET all events
 router.get('/', (req, res) => {
     Shared.get('events')
@@ -40,10 +24,27 @@ router.get('/:id', (req, res) => {
 });
 //POST new event
 router.post('/', (req, res) => {
-    let event = req.body;
-    event.duration_seconds = event.event_end - event.event_start
-    let start_mili = event.event_start * 1000
-    console.log( start_mili)
+let event = req.body;
+event.event_start_int = event.event_start_datetime
+event.events_end_int = event.event_end
+var mili = event.event_start_datetime * 1000
+var mili_tz = (event.event_start_datetime -21600) * 1000
+var mili_end =(event.event_end -21600) * 1000
+
+let days = ["Sun", 'Mon', 'Tues', 'Wed', "Thurs", "Fri", "Sat"]
+
+event.duration_seconds = parseInt(event.event_end - event.event_start_datetime)
+event.event_start_datetime = moment(mili_tz).format()
+
+event.event_end = moment(mili_end).format()
+event.event_start_12h_time = moment(mili).format('hh:mm:ss:a')
+event.event_start_24h_time = moment(mili).format('HH:mm:ss')
+event.event_day_of_week_string = days[moment(mili).weekday()]
+event.event_day_of_week_int  = parseInt(moment(mili).weekday())
+event.event_day_of_month= parseInt(moment(mili).date())
+event.event_month = parseInt(moment(mili).month()+1)
+event.event_year= parseInt(moment(mili).year())
+
     Shared.add('events', event)
     .then(data =>{
         res.status(200).json(data)
